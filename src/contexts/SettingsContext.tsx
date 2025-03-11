@@ -45,11 +45,20 @@ export const SettingsProvider = ({ children }: SettingsProviderProps) => {
     // Load settings from localStorage
     const storedSettings = localStorage.getItem('settings');
     if (storedSettings) {
-      setSettings(JSON.parse(storedSettings));
+      try {
+        const parsedSettings = JSON.parse(storedSettings);
+        setSettings(parsedSettings);
+        
+        // Apply settings to the document
+        applySettings(parsedSettings);
+      } catch (error) {
+        console.error("Error parsing stored settings:", error);
+        localStorage.removeItem('settings'); // Remove invalid settings
+      }
+    } else {
+      // Apply default settings if no stored settings
+      applySettings(defaultSettings);
     }
-
-    // Apply settings to the document
-    applySettings(storedSettings ? JSON.parse(storedSettings) : defaultSettings);
   }, []);
 
   const applySettings = (currentSettings: Settings) => {
@@ -59,10 +68,19 @@ export const SettingsProvider = ({ children }: SettingsProviderProps) => {
       currentSettings.fontSize === 'large' ? '18px' : '16px';
 
     // Apply background
-    document.body.className = `bg-${currentSettings.background}-background`;
+    document.body.className = ''; // Clear existing classes
+    document.body.classList.add(`bg-${currentSettings.background}-background`);
     
-    // In a real app, you would use i18n for language, but for this example
-    // we're just changing the settings value
+    // Apply language classes for i18n styling if needed
+    document.documentElement.setAttribute('lang', currentSettings.language);
+    
+    // Add a data attribute for language-specific styling
+    document.documentElement.setAttribute('data-language', currentSettings.language);
+    
+    // Set a layout direction based on language if needed
+    // document.documentElement.dir = currentSettings.language === 'ar' ? 'rtl' : 'ltr';
+
+    console.log("Applied settings:", currentSettings);
   };
 
   const updateSettings = (newSettings: Partial<Settings>) => {
@@ -77,13 +95,20 @@ export const SettingsProvider = ({ children }: SettingsProviderProps) => {
     // Apply changes
     applySettings(updatedSettings);
     
-    toast.success('Настройки сохранены');
+    // Show success message in the selected language
+    const successMessage = updatedSettings.language === 'en' 
+      ? 'Settings saved' 
+      : 'Настройки сохранены';
+    
+    toast.success(successMessage);
   };
 
   const resetSettings = () => {
     localStorage.removeItem('settings');
     setSettings(defaultSettings);
     applySettings(defaultSettings);
+    
+    // Show success message in the default language (Russian)
     toast.success('Настройки сброшены');
   };
 
