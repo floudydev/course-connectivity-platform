@@ -2,13 +2,15 @@
 import { useState, useEffect } from 'react';
 import { NavLink, useNavigate } from 'react-router-dom';
 import { Button } from '@/components/ui/button';
-import { Menu, X, GraduationCap, Settings, LogIn, LogOut, User } from 'lucide-react';
+import { Menu, X, GraduationCap, Settings, LogIn, LogOut } from 'lucide-react';
 import { useAuth } from '@/contexts/AuthContext';
+import { useSettings } from '@/contexts/SettingsContext';
 
 const Navbar = () => {
   const [isOpen, setIsOpen] = useState(false);
   const [isScrolled, setIsScrolled] = useState(false);
   const { user, logout } = useAuth();
+  const { t, settings } = useSettings();
   const navigate = useNavigate();
 
   // Handle scroll effect for navbar
@@ -45,10 +47,10 @@ const Navbar = () => {
   };
 
   const navLinks = [
-    { name: "Главная", path: "/" },
-    { name: "Курсы", path: "/courses" },
-    { name: "О нас", path: "/about" },
-    { name: "Контакты", path: "/contact" },
+    { name: t('nav.home'), path: "/" },
+    { name: t('nav.courses'), path: "/courses" },
+    { name: t('nav.about'), path: "/about" },
+    { name: t('nav.contact'), path: "/contact" },
   ];
 
   return (
@@ -106,7 +108,7 @@ const Navbar = () => {
                 className="flex items-center gap-2"
               >
                 <Settings className="h-4 w-4" />
-                <span>Настройки</span>
+                <span>{t('button.settings')}</span>
               </Button>
               <Button 
                 size="sm" 
@@ -114,7 +116,7 @@ const Navbar = () => {
                 className="flex items-center gap-2"
               >
                 <LogOut className="h-4 w-4" />
-                <span>Выйти</span>
+                <span>{t('button.logout')}</span>
               </Button>
             </>
           ) : (
@@ -124,7 +126,7 @@ const Navbar = () => {
               className="flex items-center gap-2"
             >
               <LogIn className="h-4 w-4" />
-              <span>Войти</span>
+              <span>{t('button.login')}</span>
             </Button>
           )}
         </div>
@@ -167,7 +169,7 @@ const Navbar = () => {
                         onClick={handleSettings}
                       >
                         <Settings className="h-5 w-5" />
-                        <span>Настройки</span>
+                        <span>{t('button.settings')}</span>
                       </Button>
                     </li>
                     <li>
@@ -176,7 +178,7 @@ const Navbar = () => {
                         onClick={handleLogout}
                       >
                         <LogOut className="h-5 w-5" />
-                        <span>Выйти</span>
+                        <span>{t('button.logout')}</span>
                       </Button>
                     </li>
                   </>
@@ -187,7 +189,7 @@ const Navbar = () => {
                       onClick={handleLogin}
                     >
                       <LogIn className="h-5 w-5" />
-                      <span>Войти</span>
+                      <span>{t('button.login')}</span>
                     </Button>
                   </li>
                 )}

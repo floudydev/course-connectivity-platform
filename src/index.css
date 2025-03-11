@@ -76,17 +76,30 @@
     --sidebar-ring: 217.2 91.2% 59.8%;
   }
   
-  /* Custom background classes */
+  /* Custom background classes with transitions */
   .bg-light-background {
     background-color: hsl(0, 0%, 100%);
+    transition: background-color 0.5s ease-in-out;
   }
   
   .bg-gray-background {
     background-color: hsl(240, 5%, 96%);
+    transition: background-color 0.5s ease-in-out;
   }
   
   .bg-blue-background {
     background-color: hsl(210, 50%, 98%);
+    transition: background-color 0.5s ease-in-out;
+  }
+
+  /* Language-specific typography adjustments */
+  html[data-language="ru"] {
+    --font-family-primary: 'Inter', 'Arial', sans-serif;
+  }
+
+  html[data-language="en"] {
+    --font-family-primary: 'Inter', 'Arial', sans-serif;
+    letter-spacing: 0.01em;
   }
 }
 
@@ -98,6 +111,7 @@
   body {
     @apply bg-background text-foreground;
     font-feature-settings: "rlig" 1, "calt" 1;
+    transition: background-color 0.5s ease;
   }
 
   h1, h2, h3, h4, h5, h6 {
@@ -148,6 +162,24 @@
 
   .section-padding {
     @apply py-12 md:py-16 lg:py-20;
+  }
+  
+  /* Enhanced buttons */
+  .btn-primary {
+    @apply bg-primary text-primary-foreground hover:bg-primary/90 inline-flex h-10 items-center justify-center rounded-md px-4 py-2 text-sm font-medium transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring;
+  }
+  
+  .btn-secondary {
+    @apply bg-secondary text-secondary-foreground hover:bg-secondary/80 inline-flex h-10 items-center justify-center rounded-md px-4 py-2 text-sm font-medium transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring;
+  }
+  
+  /* Language specific adjustments */
+  [data-language="ru"] .text-adjust {
+    letter-spacing: -0.01em;
+  }
+  
+  [data-language="en"] .text-adjust {
+    letter-spacing: 0.01em;
   }
 }
 

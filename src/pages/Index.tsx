@@ -6,26 +6,75 @@ import AboutSection from "@/components/AboutSection";
 import { Button } from "@/components/ui/button";
 import { Link } from "react-router-dom";
 import { Mail, BookOpen, GraduationCap, Users } from "lucide-react";
+import { useSettings } from "@/contexts/SettingsContext";
 
 const Home = () => {
-  // Features data
-  const features = [
-    {
-      icon: <BookOpen className="h-10 w-10 text-primary" />,
-      title: "Качественное образование",
-      description: "Современные программы обучения, разработанные экспертами торгово-экономической сферы"
+  const { settings, t } = useSettings();
+
+  // Features data with language-specific content
+  const features = settings.language === 'en' 
+    ? [
+        {
+          icon: <BookOpen className="h-10 w-10 text-primary" />,
+          title: "Quality Education",
+          description: "Modern training programs developed by experts in the trade and economic sphere"
+        },
+        {
+          icon: <GraduationCap className="h-10 w-10 text-primary" />,
+          title: "Professional Teachers",
+          description: "Experienced specialists and active industry professionals"
+        },
+        {
+          icon: <Users className="h-10 w-10 text-primary" />,
+          title: "Convenient Learning Format",
+          description: "Online courses with 24/7 access to materials and the ability to learn at your own pace"
+        }
+      ]
+    : [
+        {
+          icon: <BookOpen className="h-10 w-10 text-primary" />,
+          title: "Качественное образование",
+          description: "Современные программы обучения, разработанные экспертами торгово-экономической сферы"
+        },
+        {
+          icon: <GraduationCap className="h-10 w-10 text-primary" />,
+          title: "Профессиональные преподаватели",
+          description: "Опытные специалисты и действующие профессионалы отрасли"
+        },
+        {
+          icon: <Users className="h-10 w-10 text-primary" />,
+          title: "Удобный формат обучения",
+          description: "Онлайн-курсы с доступом к материалам 24/7 и возможностью обучаться в своем темпе"
+        }
+      ];
+
+  // CTA translations
+  const ctaContent = {
+    en: {
+      title: "Start your education today",
+      description: "Invest in your future and acquire skills that are in demand in today's job market. Our courses will help you reach new heights in your professional career.",
+      cta1: "Choose a course",
+      cta2: "Contact us",
+      promo: "20% discount for new students",
+      promoDesc: "Register now and get a 20% discount on any of our courses. Offer valid until the end of the month.",
+      getDiscount: "Get discount"
     },
-    {
-      icon: <GraduationCap className="h-10 w-10 text-primary" />,
-      title: "Профессиональные преподаватели",
-      description: "Опытные специалисты и действующие профессионалы отрасли"
-    },
-    {
-      icon: <Users className="h-10 w-10 text-primary" />,
-      title: "Удобный формат обучения",
-      description: "Онлайн-курсы с доступом к материалам 24/7 и возможностью обучаться в своем темпе"
+    ru: {
+      title: "Начните свое обучение уже сегодня",
+      description: "Инвестируйте в свое будущее и приобретайте навыки, востребованные на современном рынке труда. Наши курсы помогут вам достичь новых высот в профессиональной карьере.",
+      cta1: "Выбрать курс",
+      cta2: "Связаться с нами",
+      promo: "Скидка 20% для новых студентов",
+      promoDesc: "Зарегистрируйтесь сейчас и получите скидку 20% на любой из наших курсов. Предложение действует до конца месяца.",
+      getDiscount: "Получить скидку"
     }
-  ];
+  };
+
+  const content = settings.language === 'en' ? ctaContent.en : ctaContent.ru;
+  const whyUsTitle = settings.language === 'en' ? "Why Choose Us" : "Почему выбирают нас";
+  const whyUsDesc = settings.language === 'en' 
+    ? "We strive to create ideal conditions for your learning and development in the field of trade and economics"
+    : "Мы стремимся создать идеальные условия для вашего обучения и развития в сфере торговли и экономики";
 
   return (
     <Layout>
@@ -36,9 +85,9 @@ const Home = () => {
       <section className="section-padding">
         <div className="container mx-auto px-4">
           <div className="mb-12 text-center">
-            <h2 className="text-3xl font-bold sm:text-4xl">Почему выбирают нас</h2>
+            <h2 className="text-3xl font-bold sm:text-4xl">{whyUsTitle}</h2>
             <p className="mx-auto mt-4 max-w-2xl text-muted-foreground">
-              Мы стремимся создать идеальные условия для вашего обучения и развития в сфере торговли и экономики
+              {whyUsDesc}
             </p>
           </div>
 
@@ -71,33 +120,32 @@ const Home = () => {
         <div className="container mx-auto px-4">
           <div className="grid items-center gap-12 lg:grid-cols-2">
             <div className="animate-slide-up">
-              <h2 className="text-3xl font-bold sm:text-4xl">Начните свое обучение уже сегодня</h2>
+              <h2 className="text-3xl font-bold sm:text-4xl">{content.title}</h2>
               <p className="mt-4 text-lg text-muted-foreground">
-                Инвестируйте в свое будущее и приобретайте навыки, востребованные на современном рынке труда. Наши 
-                курсы помогут вам достичь новых высот в профессиональной карьере.
+                {content.description}
               </p>
               <div className="mt-8 flex flex-wrap gap-4">
                 <Button size="lg" asChild>
-                  <Link to="/courses">Выбрать курс</Link>
+                  <Link to="/courses">{content.cta1}</Link>
                 </Button>
                 <Button variant="outline" size="lg" asChild>
                   <Link to="/contact">
                     <Mail className="mr-2 h-4 w-4" />
-                    Связаться с нами
+                    {content.cta2}
                   </Link>
                 </Button>
               </div>
             </div>
             <div className="relative rounded-lg bg-white p-8 shadow-lg animate-slide-up [animation-delay:200ms]">
               <div className="absolute -top-4 right-4 rounded-full bg-primary/10 px-4 py-1 text-sm font-medium text-primary">
-                Акция
+                {settings.language === 'en' ? 'Promo' : 'Акция'}
               </div>
-              <h3 className="text-2xl font-bold">Скидка 20% для новых студентов</h3>
+              <h3 className="text-2xl font-bold">{content.promo}</h3>
               <p className="mt-2 text-muted-foreground">
-                Зарегистрируйтесь сейчас и получите скидку 20% на любой из наших курсов. Предложение действует до конца месяца.
+                {content.promoDesc}
               </p>
               <Button className="mt-6 w-full" asChild>
-                <Link to="/courses">Получить скидку</Link>
+                <Link to="/courses">{content.getDiscount}</Link>
               </Button>
             </div>
           </div>

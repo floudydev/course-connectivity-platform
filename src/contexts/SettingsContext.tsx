@@ -16,12 +16,39 @@ interface SettingsContextType {
   settings: Settings;
   updateSettings: (newSettings: Partial<Settings>) => void;
   resetSettings: () => void;
+  t: (key: string) => string;
 }
 
 const defaultSettings: Settings = {
   language: 'ru',
   background: 'light',
   fontSize: 'medium',
+};
+
+// Translations for both languages
+const translations = {
+  ru: {
+    'settings.saved': 'Настройки сохранены',
+    'settings.reset': 'Настройки сброшены',
+    'nav.home': 'Главная',
+    'nav.courses': 'Курсы',
+    'nav.about': 'О нас',
+    'nav.contact': 'Контакты',
+    'button.login': 'Войти',
+    'button.logout': 'Выйти',
+    'button.settings': 'Настройки',
+  },
+  en: {
+    'settings.saved': 'Settings saved',
+    'settings.reset': 'Settings reset',
+    'nav.home': 'Home',
+    'nav.courses': 'Courses',
+    'nav.about': 'About',
+    'nav.contact': 'Contact',
+    'button.login': 'Login',
+    'button.logout': 'Logout',
+    'button.settings': 'Settings',
+  }
 };
 
 const SettingsContext = createContext<SettingsContextType | undefined>(undefined);
@@ -67,20 +94,20 @@ export const SettingsProvider = ({ children }: SettingsProviderProps) => {
       currentSettings.fontSize === 'small' ? '14px' : 
       currentSettings.fontSize === 'large' ? '18px' : '16px';
 
-    // Apply background
-    document.body.className = ''; // Clear existing classes
+    // Apply background - clear existing classes first
+    document.body.classList.remove('bg-light-background', 'bg-gray-background', 'bg-blue-background');
     document.body.classList.add(`bg-${currentSettings.background}-background`);
     
-    // Apply language classes for i18n styling if needed
+    // Apply language attributes
     document.documentElement.setAttribute('lang', currentSettings.language);
-    
-    // Add a data attribute for language-specific styling
     document.documentElement.setAttribute('data-language', currentSettings.language);
     
-    // Set a layout direction based on language if needed
-    // document.documentElement.dir = currentSettings.language === 'ar' ? 'rtl' : 'ltr';
-
     console.log("Applied settings:", currentSettings);
+  };
+
+  // Translation function
+  const t = (key: string): string => {
+    return translations[settings.language][key] || key;
   };
 
   const updateSettings = (newSettings: Partial<Settings>) => {
@@ -118,6 +145,7 @@ export const SettingsProvider = ({ children }: SettingsProviderProps) => {
         settings,
         updateSettings,
         resetSettings,
+        t,
       }}
     >
       {children}
