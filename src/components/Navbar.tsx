@@ -1,12 +1,15 @@
 
 import { useState, useEffect } from 'react';
-import { NavLink } from 'react-router-dom';
+import { NavLink, useNavigate } from 'react-router-dom';
 import { Button } from '@/components/ui/button';
-import { Menu, X, GraduationCap } from 'lucide-react';
+import { Menu, X, GraduationCap, Settings, LogIn, LogOut, User } from 'lucide-react';
+import { useAuth } from '@/contexts/AuthContext';
 
 const Navbar = () => {
   const [isOpen, setIsOpen] = useState(false);
   const [isScrolled, setIsScrolled] = useState(false);
+  const { user, logout } = useAuth();
+  const navigate = useNavigate();
 
   // Handle scroll effect for navbar
   useEffect(() => {
@@ -24,6 +27,22 @@ const Navbar = () => {
 
   const toggleMenu = () => setIsOpen(!isOpen);
   const closeMenu = () => setIsOpen(false);
+
+  const handleLogin = () => {
+    closeMenu();
+    navigate('/login');
+  };
+
+  const handleLogout = () => {
+    closeMenu();
+    logout();
+    navigate('/');
+  };
+
+  const handleSettings = () => {
+    closeMenu();
+    navigate('/settings');
+  };
 
   const navLinks = [
     { name: "Главная", path: "/" },
@@ -76,10 +95,39 @@ const Navbar = () => {
           </ul>
         </nav>
 
-        {/* Sign In Button (Desktop) */}
-        <Button className="hidden md:flex" size="sm">
-          Войти
-        </Button>
+        {/* Sign In/Settings Buttons (Desktop) */}
+        <div className="hidden space-x-2 md:flex">
+          {user ? (
+            <>
+              <Button
+                variant="ghost" 
+                size="sm" 
+                onClick={handleSettings}
+                className="flex items-center gap-2"
+              >
+                <Settings className="h-4 w-4" />
+                <span>Настройки</span>
+              </Button>
+              <Button 
+                size="sm" 
+                onClick={handleLogout}
+                className="flex items-center gap-2"
+              >
+                <LogOut className="h-4 w-4" />
+                <span>Выйти</span>
+              </Button>
+            </>
+          ) : (
+            <Button 
+              size="sm" 
+              onClick={handleLogin}
+              className="flex items-center gap-2"
+            >
+              <LogIn className="h-4 w-4" />
+              <span>Войти</span>
+            </Button>
+          )}
+        </div>
 
         {/* Mobile Menu Button */}
         <button
@@ -110,11 +158,39 @@ const Navbar = () => {
                     </NavLink>
                   </li>
                 ))}
-                <li>
-                  <Button className="mt-4 w-full" onClick={closeMenu}>
-                    Войти
-                  </Button>
-                </li>
+                {user ? (
+                  <>
+                    <li>
+                      <Button
+                        variant="ghost"
+                        className="mt-4 flex w-full items-center justify-start gap-2 p-2 text-lg font-medium"
+                        onClick={handleSettings}
+                      >
+                        <Settings className="h-5 w-5" />
+                        <span>Настройки</span>
+                      </Button>
+                    </li>
+                    <li>
+                      <Button
+                        className="mt-4 flex w-full items-center justify-start gap-2"
+                        onClick={handleLogout}
+                      >
+                        <LogOut className="h-5 w-5" />
+                        <span>Выйти</span>
+                      </Button>
+                    </li>
+                  </>
+                ) : (
+                  <li>
+                    <Button
+                      className="mt-4 flex w-full items-center justify-start gap-2"
+                      onClick={handleLogin}
+                    >
+                      <LogIn className="h-5 w-5" />
+                      <span>Войти</span>
+                    </Button>
+                  </li>
+                )}
               </ul>
             </nav>
           </div>
