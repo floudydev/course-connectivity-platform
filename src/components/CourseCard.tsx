@@ -2,8 +2,11 @@
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
-import { Users, Clock, BarChart } from "lucide-react";
+import { Users, Clock, BarChart, ShoppingCart, Check } from "lucide-react";
 import { Link } from "react-router-dom";
+import { useCart } from "@/contexts/CartContext";
+import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/components/ui/tooltip";
+import { useSettings } from "@/contexts/SettingsContext";
 
 export interface CourseProps {
   id: string;
@@ -31,6 +34,17 @@ const getLevelColor = (level: CourseProps["level"]) => {
 };
 
 const CourseCard = ({ course }: { course: CourseProps }) => {
+  const { addToCart, isInCart, removeFromCart } = useCart();
+  const { t } = useSettings();
+  
+  const handleCartAction = () => {
+    if (isInCart(course.id)) {
+      removeFromCart(course.id);
+    } else {
+      addToCart(course);
+    }
+  };
+
   return (
     <Card className="group overflow-hidden transition-all duration-300 hover:shadow-lg hv-effect card-shadow">
       <div className="relative h-48 overflow-hidden">
@@ -69,9 +83,27 @@ const CourseCard = ({ course }: { course: CourseProps }) => {
       </CardContent>
       <CardFooter className="flex items-center justify-between pt-2">
         <div className="text-lg font-semibold">{course.price.toLocaleString('ru-RU')} ₽</div>
-        <Button asChild>
-          <Link to={`/courses/${course.id}`}>Подробнее</Link>
-        </Button>
+        <div className="flex gap-2">
+          <TooltipProvider>
+            <Tooltip>
+              <TooltipTrigger asChild>
+                <Button 
+                  variant={isInCart(course.id) ? "secondary" : "outline"} 
+                  size="icon" 
+                  onClick={handleCartAction}
+                >
+                  {isInCart(course.id) ? <Check className="h-4 w-4" /> : <ShoppingCart className="h-4 w-4" />}
+                </Button>
+              </TooltipTrigger>
+              <TooltipContent>
+                {isInCart(course.id) ? t('cart.remove') : t('cart.add')}
+              </TooltipContent>
+            </Tooltip>
+          </TooltipProvider>
+          <Button asChild>
+            <Link to={`/courses/${course.id}`}>Подробнее</Link>
+          </Button>
+        </div>
       </CardFooter>
     </Card>
   );

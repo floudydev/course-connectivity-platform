@@ -1,202 +1,98 @@
 
-import { useState, useEffect } from 'react';
-import { NavLink, useNavigate } from 'react-router-dom';
-import { Button } from '@/components/ui/button';
-import { Menu, X, GraduationCap, Settings, LogIn, LogOut } from 'lucide-react';
-import { useAuth } from '@/contexts/AuthContext';
-import { useSettings } from '@/contexts/SettingsContext';
+import { Link } from "react-router-dom";
+import { Button } from "@/components/ui/button";
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu";
+import { Settings, User } from "lucide-react";
+import { useAuth } from "@/contexts/AuthContext";
+import { useSettings } from "@/contexts/SettingsContext";
+import CartDropdown from "./CartDropdown";
 
 const Navbar = () => {
-  const [isOpen, setIsOpen] = useState(false);
-  const [isScrolled, setIsScrolled] = useState(false);
-  const { user, logout } = useAuth();
-  const { t, settings } = useSettings();
-  const navigate = useNavigate();
-
-  // Handle scroll effect for navbar
-  useEffect(() => {
-    const handleScroll = () => {
-      if (window.scrollY > 10) {
-        setIsScrolled(true);
-      } else {
-        setIsScrolled(false);
-      }
-    };
-
-    window.addEventListener('scroll', handleScroll);
-    return () => window.removeEventListener('scroll', handleScroll);
-  }, []);
-
-  const toggleMenu = () => setIsOpen(!isOpen);
-  const closeMenu = () => setIsOpen(false);
-
-  const handleLogin = () => {
-    closeMenu();
-    navigate('/login');
-  };
-
-  const handleLogout = () => {
-    closeMenu();
-    logout();
-    navigate('/');
-  };
-
-  const handleSettings = () => {
-    closeMenu();
-    navigate('/settings');
-  };
-
-  const navLinks = [
-    { name: t('nav.home'), path: "/" },
-    { name: t('nav.courses'), path: "/courses" },
-    { name: t('nav.about'), path: "/about" },
-    { name: t('nav.contact'), path: "/contact" },
-  ];
+  const { isAuthenticated, logout } = useAuth();
+  const { t } = useSettings();
 
   return (
-    <header
-      className={`fixed top-0 z-50 w-full transition-all duration-300 ${
-        isScrolled ? 'glass card-shadow py-2' : 'bg-transparent py-4'
-      }`}
-    >
-      <div className="container mx-auto flex items-center justify-between px-4">
-        {/* Logo */}
-        <NavLink 
-          to="/" 
-          className="flex items-center gap-2 font-semibold text-primary"
-          onClick={closeMenu}
-        >
-          <GraduationCap className="h-6 w-6" />
-          <span className="text-xl">САОК-2024</span>
-        </NavLink>
-
-        {/* Desktop Navigation */}
-        <nav className="hidden md:block">
-          <ul className="flex space-x-8">
-            {navLinks.map((link) => (
-              <li key={link.path}>
-                <NavLink
-                  to={link.path}
-                  className={({ isActive }) => 
-                    `relative px-1 py-2 font-medium transition-colors duration-300 hover:text-primary ${
-                      isActive ? 'text-primary' : 'text-foreground/80'
-                    }`
-                  }
-                >
-                  {({ isActive }) => (
-                    <>
-                      {link.name}
-                      {isActive && (
-                        <span className="absolute bottom-0 left-0 h-[2px] w-full bg-primary" />
-                      )}
-                    </>
-                  )}
-                </NavLink>
+    <header className="fixed left-0 right-0 top-0 z-50 border-b bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
+      <div className="container mx-auto flex h-16 items-center justify-between px-4">
+        <div className="flex items-center gap-6">
+          <Link to="/" className="flex items-center gap-2">
+            <span className="text-xl font-bold">EduTrade</span>
+          </Link>
+          <nav className="hidden md:flex">
+            <ul className="flex gap-6">
+              <li>
+                <Link to="/" className="text-sm font-medium transition-colors hover:text-primary">
+                  {t('nav.home')}
+                </Link>
               </li>
-            ))}
-          </ul>
-        </nav>
+              <li>
+                <Link
+                  to="/courses"
+                  className="text-sm font-medium transition-colors hover:text-primary"
+                >
+                  {t('nav.courses')}
+                </Link>
+              </li>
+              <li>
+                <Link
+                  to="/about"
+                  className="text-sm font-medium transition-colors hover:text-primary"
+                >
+                  {t('nav.about')}
+                </Link>
+              </li>
+              <li>
+                <Link
+                  to="/contact"
+                  className="text-sm font-medium transition-colors hover:text-primary"
+                >
+                  {t('nav.contact')}
+                </Link>
+              </li>
+            </ul>
+          </nav>
+        </div>
 
-        {/* Sign In/Settings Buttons (Desktop) */}
-        <div className="hidden space-x-2 md:flex">
-          {user ? (
-            <>
-              <Button
-                variant="ghost" 
-                size="sm" 
-                onClick={handleSettings}
-                className="flex items-center gap-2"
-              >
-                <Settings className="h-4 w-4" />
-                <span>{t('button.settings')}</span>
+        <div className="flex items-center gap-2">
+          <CartDropdown />
+          
+          <DropdownMenu>
+            <DropdownMenuTrigger asChild>
+              <Button variant="outline" size="icon">
+                <Settings className="h-5 w-5" />
               </Button>
-              <Button 
-                size="sm" 
-                onClick={handleLogout}
-                className="flex items-center gap-2"
-              >
-                <LogOut className="h-4 w-4" />
-                <span>{t('button.logout')}</span>
-              </Button>
-            </>
+            </DropdownMenuTrigger>
+            <DropdownMenuContent align="end">
+              <DropdownMenuItem asChild>
+                <Link to="/settings">
+                  {t('button.settings')}
+                </Link>
+              </DropdownMenuItem>
+            </DropdownMenuContent>
+          </DropdownMenu>
+
+          {isAuthenticated ? (
+            <DropdownMenu>
+              <DropdownMenuTrigger asChild>
+                <Button variant="outline" size="icon">
+                  <User className="h-5 w-5" />
+                </Button>
+              </DropdownMenuTrigger>
+              <DropdownMenuContent align="end">
+                <DropdownMenuItem onClick={logout}>{t('button.logout')}</DropdownMenuItem>
+              </DropdownMenuContent>
+            </DropdownMenu>
           ) : (
-            <Button 
-              size="sm" 
-              onClick={handleLogin}
-              className="flex items-center gap-2"
-            >
-              <LogIn className="h-4 w-4" />
-              <span>{t('button.login')}</span>
+            <Button asChild>
+              <Link to="/login">{t('button.login')}</Link>
             </Button>
           )}
         </div>
-
-        {/* Mobile Menu Button */}
-        <button
-          className="md:hidden"
-          onClick={toggleMenu}
-          aria-label={isOpen ? "Закрыть меню" : "Открыть меню"}
-        >
-          {isOpen ? <X className="h-6 w-6" /> : <Menu className="h-6 w-6" />}
-        </button>
-
-        {/* Mobile Navigation */}
-        {isOpen && (
-          <div className="fixed inset-0 top-16 z-50 animate-slide-down bg-background md:hidden">
-            <nav className="container mx-auto p-4">
-              <ul className="flex flex-col space-y-4">
-                {navLinks.map((link) => (
-                  <li key={link.path}>
-                    <NavLink
-                      to={link.path}
-                      className={({ isActive }) =>
-                        `block p-2 text-lg font-medium ${
-                          isActive ? 'text-primary' : 'text-foreground/80'
-                        }`
-                      }
-                      onClick={closeMenu}
-                    >
-                      {link.name}
-                    </NavLink>
-                  </li>
-                ))}
-                {user ? (
-                  <>
-                    <li>
-                      <Button
-                        variant="ghost"
-                        className="mt-4 flex w-full items-center justify-start gap-2 p-2 text-lg font-medium"
-                        onClick={handleSettings}
-                      >
-                        <Settings className="h-5 w-5" />
-                        <span>{t('button.settings')}</span>
-                      </Button>
-                    </li>
-                    <li>
-                      <Button
-                        className="mt-4 flex w-full items-center justify-start gap-2"
-                        onClick={handleLogout}
-                      >
-                        <LogOut className="h-5 w-5" />
-                        <span>{t('button.logout')}</span>
-                      </Button>
-                    </li>
-                  </>
-                ) : (
-                  <li>
-                    <Button
-                      className="mt-4 flex w-full items-center justify-start gap-2"
-                      onClick={handleLogin}
-                    >
-                      <LogIn className="h-5 w-5" />
-                      <span>{t('button.login')}</span>
-                    </Button>
-                  </li>
-                )}
-              </ul>
-            </nav>
-          </div>
-        )}
       </div>
     </header>
   );

@@ -5,14 +5,18 @@ import Layout from "@/components/Layout";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { CourseProps } from "@/components/CourseCard";
-import { ArrowLeft, Users, Clock, BarChart, CheckCircle } from "lucide-react";
+import { ArrowLeft, Users, Clock, BarChart, CheckCircle, ShoppingCart, Check } from "lucide-react";
 import { useCoursesData } from "@/hooks/useCoursesData";
+import { useCart } from "@/contexts/CartContext";
+import { useSettings } from "@/contexts/SettingsContext";
 
 const CourseDetails = () => {
   const { id } = useParams<{ id: string }>();
   const [course, setCourse] = useState<CourseProps | null>(null);
   const [loading, setLoading] = useState(true);
   const { allCourses } = useCoursesData();
+  const { addToCart, isInCart, removeFromCart } = useCart();
+  const { t } = useSettings();
 
   useEffect(() => {
     // Simulate loading
@@ -29,6 +33,16 @@ const CourseDetails = () => {
     
     return () => clearTimeout(timer);
   }, [id, allCourses]);
+
+  const handleCartAction = () => {
+    if (course) {
+      if (isInCart(course.id)) {
+        removeFromCart(course.id);
+      } else {
+        addToCart(course);
+      }
+    }
+  };
 
   if (loading) {
     return (
@@ -106,7 +120,28 @@ const CourseDetails = () => {
                   </div>
                 </div>
                 
-                <Button className="w-full">Записаться на курс</Button>
+                <div className="flex gap-2">
+                  <Button 
+                    variant={isInCart(course.id) ? "secondary" : "outline"}
+                    className="flex-1"
+                    onClick={handleCartAction}
+                  >
+                    {isInCart(course.id) ? (
+                      <>
+                        <Check className="mr-2 h-4 w-4" />
+                        {t('cart.inCart')}
+                      </>
+                    ) : (
+                      <>
+                        <ShoppingCart className="mr-2 h-4 w-4" />
+                        {t('cart.add')}
+                      </>
+                    )}
+                  </Button>
+                  <Button className="flex-1">
+                    {t('course.enroll')}
+                  </Button>
+                </div>
               </div>
             </div>
             
