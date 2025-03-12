@@ -1,4 +1,3 @@
-
 import Layout from "@/components/Layout";
 import { useCart } from "@/contexts/CartContext";
 import { Button } from "@/components/ui/button";
@@ -36,7 +35,7 @@ const Cart = () => {
         <div className="mb-8">
           <h1 className="text-3xl font-bold">{t('cart.title')}</h1>
           <p className="mt-2 text-muted-foreground">
-            {t('cart.itemsInCart', { count: cartItems.length })}
+            {t('cart.itemsInCart').replace('{count}', cartItems.length.toString())}
           </p>
         </div>
 

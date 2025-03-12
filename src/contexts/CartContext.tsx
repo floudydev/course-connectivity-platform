@@ -32,22 +32,22 @@ interface CartProviderProps {
   children: ReactNode;
 }
 
-export const CartProvider = ({ children }: CartProviderProps) => {
-  const [cartItems, setCartItems] = useState<CartItem[]>([]);
-  const { t } = useSettings();
-
-  // Load cart from localStorage on mount
-  useEffect(() => {
+// Helper function to get cart from localStorage
+const getStoredCart = (): CartItem[] => {
+  try {
     const storedCart = localStorage.getItem('cart');
-    if (storedCart) {
-      try {
-        setCartItems(JSON.parse(storedCart));
-      } catch (error) {
-        console.error("Error parsing stored cart:", error);
-        localStorage.removeItem('cart');
-      }
-    }
-  }, []);
+    return storedCart ? JSON.parse(storedCart) : [];
+  } catch (error) {
+    console.error("Error parsing stored cart:", error);
+    localStorage.removeItem('cart');
+    return [];
+  }
+};
+
+export const CartProvider = ({ children }: CartProviderProps) => {
+  // Initialize with stored cart to avoid flashing empty state
+  const [cartItems, setCartItems] = useState<CartItem[]>(getStoredCart());
+  const { t } = useSettings();
 
   // Save cart to localStorage whenever it changes
   useEffect(() => {
