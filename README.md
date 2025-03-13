@@ -1,69 +1,109 @@
-# Welcome to your Lovable project
+# Course Connectivity Platform
 
-## Project info
+Course Connectivity Platform - это платформа для онлайн-обучения, предоставляющая современные программы обучения, разработанные экспертами в торгово-экономической сфере.
 
-**URL**: https://lovable.dev/projects/a26b4dea-727e-401a-a055-5c0d4dd90ac6
+## Структура проекта
 
-## How can I edit this code?
+```
+.gitignore
+bun.lockb
+components.json
+eslint.config.js
+index.html
+package.json
+postcss.config.js
+tailwind.config.ts
+tsconfig.app.json
+tsconfig.json
+tsconfig.node.json
+vite.config.ts
+public/
+    favicon.ico
+    og-image.png
+    placeholder.svg
+src/
+    App.css
+    App.tsx
+    index.css
+    main.tsx
+    vite-env.d.ts
+    components/
+        AboutSection.tsx
+        CartDropdown.tsx
+        ContactForm.tsx
+        CourseCard.tsx
+        CourseFilters.tsx
+        CourseList.tsx
+        FeaturedCourses.tsx
+        Footer.tsx
+        Hero.tsx
+        ...
+    contexts/
+    hooks/
+    lib/
+    pages/
+```
 
-There are several ways of editing your application.
+## Установка
 
-**Use Lovable**
-
-Simply visit the [Lovable Project](https://lovable.dev/projects/a26b4dea-727e-401a-a055-5c0d4dd90ac6) and start prompting.
-
-Changes made via Lovable will be committed automatically to this repo.
-
-**Use your preferred IDE**
-
-If you want to work locally using your own IDE, you can clone this repo and push changes. Pushed changes will also be reflected in Lovable.
-
-The only requirement is having Node.js & npm installed - [install with nvm](https://github.com/nvm-sh/nvm#installing-and-updating)
-
-Follow these steps:
+1. Клонируйте репозиторий:
 
 ```sh
-# Step 1: Clone the repository using the project's Git URL.
-git clone <YOUR_GIT_URL>
+git clone https://github.com/your-username/course-connectivity-platform.git
+```
 
-# Step 2: Navigate to the project directory.
-cd <YOUR_PROJECT_NAME>
+2. Перейдите в директорию проекта:
 
-# Step 3: Install the necessary dependencies.
-npm i
+```sh
+cd course-connectivity-platform
+```
 
-# Step 4: Start the development server with auto-reloading and an instant preview.
+3. Установите зависимости:
+
+```sh
+npm install
+```
+
+## Запуск проекта
+
+Для запуска проекта в режиме разработки выполните:
+
+```sh
 npm run dev
 ```
 
-**Edit a file directly in GitHub**
+Проект будет доступен по адресу `http://localhost:3000`.
 
-- Navigate to the desired file(s).
-- Click the "Edit" button (pencil icon) at the top right of the file view.
-- Make your changes and commit the changes.
+## Сборка проекта
 
-**Use GitHub Codespaces**
+Для сборки проекта выполните:
 
-- Navigate to the main page of your repository.
-- Click on the "Code" button (green button) near the top right.
-- Select the "Codespaces" tab.
-- Click on "New codespace" to launch a new Codespace environment.
-- Edit files directly within the Codespace and commit and push your changes once you're done.
+```sh
+npm run build
+```
 
-## What technologies are used for this project?
+Собранные файлы будут находиться в директории `dist`.
 
-This project is built with .
+## Структура кода
 
-- Vite
-- TypeScript
+- `src/components/` - Компоненты пользовательского интерфейса.
+- `src/contexts/` - Контексты для управления состоянием.
+- `src/hooks/` - Пользовательские хуки.
+- `src/lib/` - Библиотеки и утилиты.
+- `src/pages/` - Страницы приложения.
+
+## Основные страницы
+
+- `src/pages/Index.tsx` - Главная страница.
+- `src/pages/Checkout.tsx` - Страница оформления заказа.
+
+## Используемые технологии
+
 - React
-- shadcn-ui
-- Tailwind CSS
+- TypeScript
+- TailwindCSS
+- Vite
 
-## How can I deploy this project?
+## Лицензия
 
-Simply open [Lovable](https://lovable.dev/projects/a26b4dea-727e-401a-a055-5c0d4dd90ac6) and click on Share -> Publish.
-
-## I want to use a custom domain - is that possible?
-
-We don't support custom domains (yet). If you want to deploy your project under your own domain then we recommend using Netlify. Visit our docs for more details: [Custom domains](https://docs.lovable.dev/tips-tricks/custom-domain/)
+Этот проект лицензирован под лицензией MIT. Подробности см. в файле [LICENSE](LICENSE).
