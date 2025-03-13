@@ -1,8 +1,48 @@
+<h1 align="left">Hey 👋 What's up?</h1>
+
+###
+
+<p align="left">My name is Egor 👋,<br>I am a middle developer on Node JS and TS 💻.<br>My main focus is on chatbots 🤖.</p>
+
+###
+
+<h2 align="left">About me</h2>
+
+###
+
+<p align="left">✨ I 've been creating bugs since 2020<br><br>📚 I am currently learning React Native and improving my TypeScript skills .<br><br>🎯 Goals: To create a chatbot based on artificial intelligence that can communicate with users in chats.<br><br>🎲 Fun fact: One day we accidentally created a bug that caused our app to play random cat sounds every time someone logged in!</p>
+
+###
+
+<h2 align="left">I code with</h2>
+
+###
+
+<div align="left">
+  <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/javascript/javascript-original.svg" height="40" alt="javascript logo"  />
+  <img width="12" />
+  <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/typescript/typescript-original.svg" height="40" alt="typescript logo"  />
+  <img width="12" />
+  <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/react/react-original.svg" height="40" alt="react logo"  />
+  <img width="12" />
+  <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/nodejs/nodejs-original.svg" height="40" alt="nodejs logo"  />
+  <img width="12" />
+  <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/eslint/eslint-original.svg" height="40" alt="eslint logo"  />
+  <img width="12" />
+  <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/tailwindcss/tailwindcss-original-wordmark.svg" height="40" alt="tailwindcss logo"  />
+</div>
+
+###
+
+<p align="left">What else have I used: Vite</p>
+
+###
+
 # Course Connectivity Platform
 
-Course Connectivity Platform - это платформа для онлайн-обучения, предоставляющая современные программы обучения, разработанные экспертами в торгово-экономической сфере.
+Course Connectivity Platform - It is an online learning platform that provides state-of-the-art training programs developed by experts in the trade and economic field.
 
-## Структура проекта
+## Project structure
 
 ```
 .gitignore
@@ -44,66 +84,66 @@ src/
     pages/
 ```
 
-## Установка
+## Installation
 
-1. Клонируйте репозиторий:
+1. Clone the repository:
 
 ```sh
 git clone https://github.com/your-username/course-connectivity-platform.git
 ```
 
-2. Перейдите в директорию проекта:
+2. Go to the project directory:
 
 ```sh
 cd course-connectivity-platform
 ```
 
-3. Установите зависимости:
+3. Install the dependencies:
 
 ```sh
 npm install
 ```
 
-## Запуск проекта
+## Project Launch
 
-Для запуска проекта в режиме разработки выполните:
+To run a project in development mode, run:
 
 ```sh
 npm run dev
 ```
 
-Проект будет доступен по адресу `http://localhost:3000`.
+The project will be available at `http://localhost`.
 
-## Сборка проекта
+## Building a project
 
-Для сборки проекта выполните:
+To build the project, run:
 
 ```sh
 npm run build
 ```
 
-Собранные файлы будут находиться в директории `dist`.
+The collected files will be located in the directory `dist`.
 
-## Структура кода
+## The structure of the code
 
-- `src/components/` - Компоненты пользовательского интерфейса.
-- `src/contexts/` - Контексты для управления состоянием.
-- `src/hooks/` - Пользовательские хуки.
-- `src/lib/` - Библиотеки и утилиты.
-- `src/pages/` - Страницы приложения.
+- `src/components/` - User Interface Components.
+- `src/contexts/` - Contexts for state management.
+- `src/hooks/` - Custom Hooks.
+- `src/lib/` - Libraries and utilities.
+- `src/pages/` - Application Pages.
 
-## Основные страницы
+## Main Pages
 
-- `src/pages/Index.tsx` - Главная страница.
-- `src/pages/Checkout.tsx` - Страница оформления заказа.
+- `src/pages/Index.tsx` - Main page.
+- `src/pages/Checkout.tsx` - Order registration page.
 
-## Используемые технологии
+## Technologies used
 
 - React
 - TypeScript
 - TailwindCSS
 - Vite
 
-## Лицензия
+## Licenses
 
-Этот проект лицензирован под лицензией MIT. Подробности см. в файле [LICENSE](LICENSE).
+This project is licensed under the MIT license.
